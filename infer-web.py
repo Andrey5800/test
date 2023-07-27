@@ -2108,7 +2108,48 @@ with gr.Blocks(theme=gr.themes.Soft()) as app:
                         ],
                         info3,
                     )
+        
+     def save_files(file1, file2, file3, folder1, folder2, folder3):
 
+          if not os.path.exists(folder1.value):
+            os.makedirs(folder1.value)
+
+          if not os.path.exists(folder2.value):
+            os.makedirs(folder2.value)
+
+          if not os.path.exists(folder3.value): 
+            os.makedirs(folder3.value)
+          if file1 is not None:
+            file1_bytes = file1.read()
+            with open(os.path.join(folder1, "file1.dat"), "wb") as f:
+              f.write(file1_bytes)
+
+          if file2 is not None:
+            file2_bytes = file2.read()
+            with open(os.path.join(folder2, "file2.dat"), "wb") as f:
+              f.write(file2_bytes)
+  
+          if file3 is not None:
+            file3_bytes = file3.read()
+            with open(os.path.join(folder3, "file3.dat"), "wb") as f:
+              f.write(file3_bytes)
+
+
+        with gr.TabItem("Download"):
+
+          file1 = gr.File(label="Файл pth")
+          file2 = gr.File(label="Файл index")
+          file3 = gr.File(label="Голос который будем обрабатывать, акапелла")  
+
+          folder1 = gr.Textbox(label="Папка 1", value="/kaggle/working/RVC_kaggle/logs/")
+          folder2 = gr.Textbox(label="Папка 2", value="/kaggle/working/RVC_kaggle/weights")
+          folder3 = gr.Textbox(label="Папка 3", value="/kaggle/working/RVC_kaggle/sound/")
+
+          download_button = gr.Button("Загрузить")
+
+          download_button.click(save_files, 
+             inputs=[file1, file2, file3, folder1, folder2, folder3],
+             outputs=[])
 
 
 
